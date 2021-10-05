@@ -2,7 +2,8 @@ import { FC, ReactElement, HTMLAttributes } from 'react';
 
 export interface IModalProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactElement | string;
-  onAccept?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onAccept?: (data?: any) => void;
   onCancel?: () => void;
   status: boolean;
 }
@@ -10,7 +11,7 @@ export interface IModalProps extends HTMLAttributes<HTMLDivElement> {
 const Modal: FC<IModalProps> = ({ children, status, onAccept, onCancel }) => {
   return (
     <>
-      <input type="checkbox" className="modal-toggle" checked={status} />
+      <input type="checkbox" className="modal-toggle" checked={status} onChange={() => ({})} />
       <div className="modal">
         <div className="modal-box">
           {children}

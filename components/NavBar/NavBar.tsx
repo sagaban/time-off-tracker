@@ -3,8 +3,8 @@ import Link from 'next/link';
 export default function NavBar(): React.ReactElement {
   const menuEntries = [
     {
-      label: 'Users',
-      link: '/users',
+      label: 'Employees',
+      link: '/employees',
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ export default function NavBar(): React.ReactElement {
           </Link>
         </span>
       </div>
-      <div className="flex-none hidden px-2 mx-2 sm:flex">
+      <div className="flex-none hidden px-2 mx-2 md:flex">
         <div className="flex items-stretch">
           {menuEntries.map((entry) => {
             return (
@@ -92,7 +92,7 @@ export default function NavBar(): React.ReactElement {
           })}
         </div>
       </div>
-      <div className="flex-none sm:hidden">
+      <div className="flex-none md:hidden">
         <button className="btn btn-square btn-ghost">
           <svg
             xmlns="http://www.w3.org/2000/svg"
