@@ -11,7 +11,7 @@ const Layout: React.FC = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <main className="container mx-auto prose">{children}</main>
+      <main className="container mx-auto">{children}</main>
       {/* <Footer /> */}
     </>
   );

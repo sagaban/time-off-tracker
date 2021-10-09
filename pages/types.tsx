@@ -1,7 +1,36 @@
 import type { NextPage } from 'next';
+import { TimeOffTypes } from '@utils/constants';
 
 const Home: NextPage = () => {
-  return <h1 className="text-center">Types</h1>;
+  return (
+    <div className="prose mx-auto">
+      <div className="flex justify-between">
+        <h1>Time off types </h1>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="table w-full table-zebra">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Label</th>
+              <th>Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            {TimeOffTypes.map((tot) => (
+              <tr key={tot.code} className="overflow-x-auto">
+                <th>{tot.code}</th>
+                <td>{tot.label}</td>
+                <td>
+                  <div className={`badge bg-${tot.color} border-${tot.color}`}>{tot.color}</div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

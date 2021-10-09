@@ -1,6 +1,6 @@
 export type Employee = {
-  // id?: string;
+  _id?: string;
   fullName: string;
-  // email: string;
-  // startingDate: Date;
+  email: string;
+  startingDate: Date;
 };
