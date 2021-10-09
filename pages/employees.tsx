@@ -3,10 +3,12 @@ import { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import cn from 'classnames';
+import { useEmployees } from '@hooks/useEmployee';
+import Loading from '@components/ui/Loading';
 
 import Modal from '@components/Modal';
 
-const Home: NextPage = () => {
+const EmployeesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     control,
@@ -16,6 +18,8 @@ const Home: NextPage = () => {
     // formState,
     reset,
   } = useForm();
+
+  const { employees, isLoading } = useEmployees();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
@@ -37,13 +41,24 @@ const Home: NextPage = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const employeeData = (
+    <div>
+      {employees?.map((employee) => (
+        <div key={employee.fullName}>{employee.fullName}</div>
+      ))}
+    </div>
+  );
+
   return (
     <>
-      <div className="flex">
-        <h1 className="text-center">Employees </h1>
-        <button className="btn btn-primary" onClick={toggleModal}>
-          Add new employee
-        </button>
+      <div>
+        <div className="flex justify-between">
+          <h1>Employees </h1>
+          <button className="btn btn-primary" onClick={toggleModal}>
+            Add new employee
+          </button>
+        </div>
+        <div>{isLoading ? <Loading /> : employeeData}</div>
       </div>
       <Modal onCancel={toggleModal} status={isModalOpen} onAccept={triggerSubmit}>
         <div className="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
@@ -179,4 +194,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default EmployeesPage;
