@@ -19,7 +19,7 @@ const EmployeesPage: NextPage = () => {
     reset,
   } = useForm();
 
-  const { employees, isLoading } = useEmployees();
+  const { employees, isLoading, isError } = useEmployees();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
@@ -43,9 +43,11 @@ const EmployeesPage: NextPage = () => {
 
   const employeeData = (
     <div>
-      {employees?.map((employee) => (
-        <div key={employee.fullName}>{employee.fullName}</div>
-      ))}
+      {employees?.length ? (
+        employees.map((employee) => <div key={employee.fullName}>{employee.fullName}</div>)
+      ) : (
+        <div>There are no employees</div>
+      )}
     </div>
   );
 
@@ -58,7 +60,9 @@ const EmployeesPage: NextPage = () => {
             Add new employee
           </button>
         </div>
-        <div>{isLoading ? <Loading /> : employeeData}</div>
+        <div>
+          {isError ? <div>Error loading data</div> : isLoading ? <Loading /> : employeeData}
+        </div>
       </div>
       <Modal onCancel={toggleModal} status={isModalOpen} onAccept={triggerSubmit}>
         <div className="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
