@@ -3,8 +3,9 @@ import { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import cn from 'classnames';
-import { useEmployees } from '@hooks/useEmployee';
+import { useEmployees, useModifyEmployee } from '@hooks/useEmployee';
 import Loading from '@components/ui/Loading';
+import { Employee } from '@customTypes/employee';
 
 import Modal from '@components/Modal';
 
@@ -20,11 +21,12 @@ const EmployeesPage: NextPage = () => {
   } = useForm();
 
   const { employees, isLoading, isError } = useEmployees();
+  const [callAPI] = useModifyEmployee();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (employee: Employee) => {
     toggleModal();
-    console.log(data);
+    callAPI(employee);
   };
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -96,11 +98,11 @@ const EmployeesPage: NextPage = () => {
                       type="text"
                       placeholder="Fullname"
                       className={cn('input input-bordered w-full', {
-                        'input-error': errors.fullname,
+                        'input-error': errors.fullName,
                       })}
-                      {...register('fullname', { required: true })}
+                      {...register('fullName', { required: true })}
                     />
-                    {errors.fullname && (
+                    {errors.fullName && (
                       <label className="label">
                         <span className="label-text-alt">Fullname is required</span>
                       </label>
