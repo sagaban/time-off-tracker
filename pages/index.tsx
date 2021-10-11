@@ -4,7 +4,7 @@ import { enUS } from 'date-fns/locale';
 import cn from 'classnames';
 import { format, getDaysInMonth, isWeekend, isSameMonth, isSameYear } from 'date-fns';
 import { TimeOff } from '@customTypes/timeOff';
-import { SUPPORTED_YEARS, TimeOffTypes } from '@utils/constants';
+import { SUPPORTED_YEARS, TimeOffTypes, TimeOffTypesArray } from '@utils/constants';
 
 import { useEmployees } from '@hooks/useEmployee';
 import { useTimesOff } from '@hooks/useTimeOff';
@@ -169,6 +169,66 @@ const Home: NextPage = () => {
                         ).length
                       }
                     </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div>There are no employees</div>
+        )}
+      </div>
+      <div className="flex justify-between prose max-w-none mt-8">
+        <h2 className="text-center">Total time off in this year</h2>
+      </div>
+      <div>
+        {isError ? (
+          <div>Error loading data</div>
+        ) : isLoading ? (
+          <Loading />
+        ) : employees?.length ? (
+          <div className="overflow-x-auto">
+            <table className="table w-full table-zebra">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  {TimeOffTypesArray.map((timeOffType) => (
+                    <th key={timeOffType.code}>{timeOffType.label}</th>
+                  ))}
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {employees.map((employee) => (
+                  <tr key={employee._id} className="overflow-x-auto">
+                    <td>{employee.fullName}</td>
+                    {TimeOffTypesArray.map((timeOffType) => (
+                      <th key={timeOffType.code}>
+                        {
+                          timesOff?.filter(
+                            (timeOff) =>
+                              timeOff.employee === employee._id &&
+                              isSameYear(
+                                new Date(timeOff.startDate),
+                                new Date(selectedYear, selectedMonth, 1),
+                              ) &&
+                              timeOff.type === timeOffType.code,
+                          ).length
+                        }
+                      </th>
+                    ))}
+                    <th>
+                      {
+                        timesOff?.filter(
+                          (timeOff) =>
+                            timeOff.employee === employee._id &&
+                            isSameYear(
+                              new Date(timeOff.startDate),
+                              new Date(selectedYear, selectedMonth, 1),
+                            ),
+                        ).length
+                      }
+                    </th>
                   </tr>
                 ))}
               </tbody>
