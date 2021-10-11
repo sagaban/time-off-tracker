@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { TimeOffTypes } from '@utils/constants';
+import { TimeOffTypesArray } from '@utils/constants';
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {TimeOffTypes.map((tot) => (
+            {TimeOffTypesArray.map((tot) => (
               <tr key={tot.code} className="overflow-x-auto">
                 <th>{tot.code}</th>
                 <td>{tot.label}</td>

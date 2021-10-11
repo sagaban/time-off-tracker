@@ -1,7 +1,7 @@
-import { /*useSWR, */ useSWRConfig } from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { TimeOff } from '@customTypes/timeOff';
-// import { fetcher } from '@utils/helpers';
+import { fetcher } from '@utils/helpers';
 
 const url = '/api/timeoff';
 
@@ -10,11 +10,12 @@ const url = '/api/timeoff';
 //   isLoading: boolean;
 //   isError: boolean;
 // }
-// interface UseTimesOff {
-//   employees: UseTimeOff[] | undefined;
-//   isLoading: boolean;
-//   isError: boolean;
-// }
+
+interface UseTimesOff {
+  timesOff: TimeOff[] | undefined;
+  isLoading: boolean;
+  isError: boolean;
+}
 
 // export function useEmployee(id: string): UseEmployee {
 //   const { data, error } = useSWR<Employee>(`${url}/${id}`, fetcher);
@@ -25,15 +26,16 @@ const url = '/api/timeoff';
 //     isError: error,
 //   };
 // }
-// export function useEmployees(): UseEmployees {
-//   const { data, error } = useSWR<Employee[]>(url, fetcher);
 
-//   return {
-//     employees: data,
-//     isLoading: !error && !data,
-//     isError: error,
-//   };
-// }
+export function useTimesOff(): UseTimesOff {
+  const { data, error } = useSWR<TimeOff[]>(url, fetcher);
+
+  return {
+    timesOff: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
 
 interface ApiCallResponse {
   data: unknown | null;

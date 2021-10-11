@@ -2,7 +2,7 @@ export type TimeOff = {
   _id?: string;
   startDate: Date;
   endDate: Date;
-  employeeId: string;
+  employee: string; //ID
   type: TimeOffCode;
 };
 

@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import cn from 'classnames';
 import Loading from '@components/ui/Loading';
-import { TimeOffTypes } from '@utils/constants';
+import { TimeOffTypesArray } from '@utils/constants';
 
 import { useModifyTimeOff } from '@hooks/useTimeOff';
 import { TimeOff } from '@customTypes/timeOff';
@@ -121,7 +121,7 @@ const Add: NextPage = () => {
               className="select select-bordered w-full"
               {...register('type', { required: true })}
             >
-              {TimeOffTypes.map((tot) => (
+              {TimeOffTypesArray.map((tot) => (
                 <option key={tot.code} value={tot.code}>
                   {tot.label}
                 </option>
