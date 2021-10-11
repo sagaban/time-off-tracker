@@ -39,6 +39,8 @@ async function dbConnect(): Promise<{ client: MongoClient; db: Db }> {
       useUnifiedTopology: true,
       // useCreateIndex: true,
       // useFindAndModify: false,
+      logger: console.log,
+      loggerLevel: 'info',
     };
 
     cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import cn from 'classnames';
@@ -31,15 +31,6 @@ const EmployeesPage: NextPage = () => {
     callAPI(employee);
   };
 
-  const formRef = useRef<HTMLFormElement>(null);
-  const triggerSubmit = () => {
-    if (formRef.current) {
-      formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
-      // console.log(`formState: ${formState}`);
-      handleSubmit(onSubmit)();
-    }
-  };
-
   const toggleModal = (): void => {
     reset();
     setIsModalOpen(!isModalOpen);
@@ -64,7 +55,11 @@ const EmployeesPage: NextPage = () => {
                   <th>{employee._id}</th>
                   <td>{employee.fullName}</td>
                   <td>{employee.email} </td>
-                  <td>{format(new Date(employee.startingDate), 'MMM do, yyyy')}</td>
+                  <td>
+                    {employee.startingDate
+                      ? format(new Date(employee.startingDate), 'MMM do, yyyy')
+                      : ''}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -89,14 +84,14 @@ const EmployeesPage: NextPage = () => {
           {isError ? <div>Error loading data</div> : isLoading ? <Loading /> : employeeData}
         </div>
       </div>
-      <Modal onCancel={toggleModal} status={isModalOpen} onAccept={triggerSubmit}>
-        <div className="flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
+      <Modal onCancel={toggleModal} status={isModalOpen} onAccept={handleSubmit(onSubmit)}>
+        <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
           <div className="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
             <div className="bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
               New employee
             </div>
             <div className="p-3">
-              <form className="w-full" onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+              <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full px-3">
                     <label className="label">

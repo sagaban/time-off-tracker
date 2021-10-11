@@ -1,13 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Employee } from '@customTypes/employee';
+import { TimeOff } from '@customTypes/timeOff';
 import { ErrorData } from '@customTypes/errors';
-import EmployeeModel from '@models/Employee';
+import TimeOffModel from '@models/TimeOff';
 import dbConnect from '@utils/dbConnect';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Employee[] | ErrorData>,
+  res: NextApiResponse<TimeOff[] | ErrorData>,
 ): Promise<void> {
   const { method } = req;
 
@@ -16,19 +16,19 @@ export default async function handler(
   switch (method) {
     case 'GET':
       try {
-        const employees = await EmployeeModel.find({});
-        res.status(200).json(employees);
+        const timesOff = await TimeOffModel.find({});
+        res.status(200).json(timesOff);
       } catch (error) {
-        res.status(400).json({ message: "Employees couldn't be fetched", stack: error });
+        res.status(400).json({ message: "Times off couldn't be fetched", stack: error });
       }
       break;
     case 'POST':
       try {
-        // TODO: Check that Employee does now exist
-        const employees = await EmployeeModel.create(req.body);
-        res.status(201).json(employees);
+        // TODO: Check that Time off does now exist
+        const timeOff = await TimeOffModel.create(req.body);
+        res.status(201).json(timeOff);
       } catch (error) {
-        res.status(400).json({ message: "Employee couldn't be created", stack: error });
+        res.status(400).json({ message: "Time off couldn't be created", stack: error });
       }
       break;
     default:

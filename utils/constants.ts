@@ -1,21 +1,23 @@
+import { TimeOffCode } from '@customTypes/timeOff';
+
 export const TimeOffTypes = [
   {
-    code: 'PTO',
-    label: 'Paied Time Off',
+    code: TimeOffCode.PTO,
+    label: 'Paid Time Off',
     color: 'red-600',
   },
   {
-    code: 'NPTO',
-    label: 'No Paied Time Off',
+    code: TimeOffCode.NPTO,
+    label: 'No Paid Time Off',
     color: 'blue-600',
   },
   {
-    code: 'Sick',
+    code: TimeOffCode.Sick,
     label: 'Sick leave',
     color: 'green-600',
   },
   {
-    code: 'BH',
+    code: TimeOffCode.BH,
     label: 'Bank Holiday',
     color: 'yellow-600',
   },
