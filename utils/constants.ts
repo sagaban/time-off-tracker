@@ -20,3 +20,5 @@ export const TimeOffTypes = [
     color: 'yellow-600',
   },
 ];
+
+export const SUPPORTED_YEARS = [2020, 2021, 2022];

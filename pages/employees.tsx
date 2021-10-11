@@ -3,11 +3,13 @@ import { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import cn from 'classnames';
+import { format } from 'date-fns';
+
 import { useEmployees, useModifyEmployee } from '@hooks/useEmployee';
 import Loading from '@components/ui/Loading';
-import { Employee } from '@customTypes/employee';
-
 import Modal from '@components/Modal';
+
+import { Employee } from '@customTypes/employee';
 
 const EmployeesPage: NextPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,7 +64,7 @@ const EmployeesPage: NextPage = () => {
                   <th>{employee._id}</th>
                   <td>{employee.fullName}</td>
                   <td>{employee.email} </td>
-                  <td>{employee.startingDate}</td>
+                  <td>{format(new Date(employee.startingDate), 'MMM do, yyyy')}</td>
                 </tr>
               ))}
             </tbody>
