@@ -2,13 +2,9 @@ import mongoose from 'mongoose';
 import { TimeOffCode } from '@customTypes/timeOff';
 
 const TimeOffSchema = new mongoose.Schema({
-  startDate: {
+  date: {
     type: Date,
-    required: [true, 'Start date is required!'],
-    trim: true,
-  },
-  endDate: {
-    type: Date,
+    required: [true, 'Date is required!'],
     trim: true,
   },
   type: {

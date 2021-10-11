@@ -43,7 +43,7 @@ const Home: NextPage = () => {
     const _timesOffObject =
       timesOff?.reduce((acc: TimesOffObject, timeOff) => {
         const newAcc = { ...acc };
-        const [day, month, year] = format(new Date(timeOff.startDate), 'd-M-yyyy').split('-');
+        const [day, month, year] = format(new Date(timeOff.date), 'd-M-yyyy').split('-');
         if (newAcc[year]) {
           if (newAcc[year][month]) {
             if (newAcc[year][month][day]) {
@@ -154,20 +154,19 @@ const Home: NextPage = () => {
                       );
                     })}
                     <td>
-                      {
-                        timesOff?.filter(
+                      {timesOff?.filter &&
+                        timesOff.filter(
                           (timeOff) =>
                             timeOff.employee === employee._id &&
                             isSameYear(
-                              new Date(timeOff.startDate),
+                              new Date(timeOff.date),
                               new Date(selectedYear, selectedMonth, 1),
                             ) &&
                             isSameMonth(
-                              new Date(timeOff.startDate),
+                              new Date(timeOff.date),
                               new Date(selectedYear, selectedMonth, 1),
                             ),
-                        ).length
-                      }
+                        ).length}
                     </td>
                   </tr>
                 ))}
@@ -204,30 +203,28 @@ const Home: NextPage = () => {
                     <td>{employee.fullName}</td>
                     {TimeOffTypesArray.map((timeOffType) => (
                       <th key={timeOffType.code}>
-                        {
-                          timesOff?.filter(
+                        {timesOff?.filter &&
+                          timesOff.filter(
                             (timeOff) =>
                               timeOff.employee === employee._id &&
                               isSameYear(
-                                new Date(timeOff.startDate),
+                                new Date(timeOff.date),
                                 new Date(selectedYear, selectedMonth, 1),
                               ) &&
                               timeOff.type === timeOffType.code,
-                          ).length
-                        }
+                          ).length}
                       </th>
                     ))}
                     <th>
-                      {
-                        timesOff?.filter(
+                      {timesOff?.filter &&
+                        timesOff.filter(
                           (timeOff) =>
                             timeOff.employee === employee._id &&
                             isSameYear(
-                              new Date(timeOff.startDate),
+                              new Date(timeOff.date),
                               new Date(selectedYear, selectedMonth, 1),
                             ),
-                        ).length
-                      }
+                        ).length}
                     </th>
                   </tr>
                 ))}

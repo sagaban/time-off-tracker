@@ -43,7 +43,7 @@ interface ApiCallResponse {
   isLoading: boolean;
 }
 
-type ApiCallFn = (timeOff: TimeOff) => Promise<void>;
+type ApiCallFn = (timesOff: TimeOff[]) => Promise<void>;
 
 type UseModifyTimeOffHook = [ApiCallFn, ApiCallResponse];
 
@@ -57,7 +57,7 @@ export function useModifyTimeOff(): UseModifyTimeOffHook {
 
   const callAPI = useCallback(
     // TODO: unify this call with employee onw
-    async (timeOff: TimeOff) => {
+    async (timesOff: TimeOff[]) => {
       setResponse((prevState) => ({ ...prevState, isLoading: true }));
       try {
         const call = await fetch(url, {
@@ -65,7 +65,7 @@ export function useModifyTimeOff(): UseModifyTimeOffHook {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(timeOff),
+          body: JSON.stringify(timesOff),
         });
         const data = await call.json();
         mutate(url, data);

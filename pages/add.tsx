@@ -3,10 +3,12 @@ import { useEmployees } from '@hooks/useEmployee';
 import { Controller, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import cn from 'classnames';
+import { isWeekend, differenceInDays, addDays } from 'date-fns';
+
 import Loading from '@components/ui/Loading';
 import { TimeOffTypesArray } from '@utils/constants';
-
 import { useModifyTimeOff } from '@hooks/useTimeOff';
+
 import { TimeOff } from '@customTypes/timeOff';
 
 const Add: NextPage = () => {
@@ -16,21 +18,44 @@ const Add: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    // formState,
     watch,
+    reset,
   } = useForm();
 
-  const [callAPI] = useModifyTimeOff();
+  const [callAPI, response] = useModifyTimeOff();
 
   const isRange = watch('isRange');
   const startDate = watch('startDate');
   const endDate = watch('endDate');
 
-  const onSubmit = (timeOff: TimeOff) => {
-    callAPI(timeOff);
+  interface ITimeOffForm extends Omit<TimeOff, 'id' | 'date'> {
+    isRange: boolean;
+    endDate: Date;
+    startDate: Date;
+  }
+
+  const onSubmit = async (timeOff: ITimeOffForm) => {
+    let diff = 0;
+    if (timeOff.isRange && timeOff.endDate) {
+      diff = differenceInDays(timeOff.endDate, timeOff.startDate);
+    }
+    const timesOff: TimeOff[] = [];
+    for (let index = 0; index <= diff; index++) {
+      const date = addDays(timeOff.startDate, index);
+      if (!isWeekend(date)) {
+        timesOff.push({ ...timeOff, date });
+      }
+    }
+    await callAPI(timesOff);
+
+    reset();
   };
 
-  return (
+  return response.error ? (
+    <div>Error saving time off: {response.error}</div>
+  ) : response.isLoading ? (
+    <Loading />
+  ) : (
     <>
       <div className="prose max-w-none my-2">
         <h1 className="text-center">Add time off </h1>
@@ -54,6 +79,7 @@ const Add: NextPage = () => {
                     'input-error': errors.startDate,
                   })}
                   maxDate={endDate}
+                  filterDate={(d) => !isWeekend(new Date(d))}
                 />
               )}
             />
@@ -84,6 +110,7 @@ const Add: NextPage = () => {
                   className="input input-bordered w-full"
                   minDate={startDate}
                   disabled={!isRange}
+                  filterDate={(d) => !isWeekend(new Date(d))}
                 />
               )}
             />
