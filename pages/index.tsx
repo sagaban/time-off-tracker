@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   const months = createArraySequentialNumber(12);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(1);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [monthDays, setMonthDays] = useState(
     createArraySequentialNumber(getDaysInMonth(new Date(selectedYear, selectedMonth))),
   );
